@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <!--
+        appenderタグで、ログの出力先を指定する。
+        name属性には、appenderの定義名を記載する。
+        class属性には、ログ出力を行うクラスを指定する。
+    -->
+
+    <!-- コンソール出漁の定義 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %message%n</pattern>
+            <!--
+                patternタグで、出力するログのフォーマットを指定します。
+
+                %date   ： ログを出力した日付
+                %thread ： スレッド名
+                %level  ： ログレベル。先頭に-5を指定しているが、これはログレベルの出力幅を5文字固定にすることを表す
+                %logger ： ログを出力したクラス名
+                %line   ： ログを出力した番号
+                %message： ログを出力するプログラム上で指定した、ログメッセージ
+                %n      ： 改行
+            -->
+        </encoder>
+    </appender>
+
+    <!-- ファイル出力の定義 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/main.log</file>
+        <!--
+            rollingPolicyタグでは、ログが肥大化しないように
+            出力先のログファイルを切り替えるための条件を定義します。
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>main_%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level %logger{35} - %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+        rootタグで、出力するログレベルを指定する。
+        以下ではINFOを指定しているため、上位レベルであるDEBUGは出力されず、INFO, WARN, ERRORのみが出力されます。
+    -->
+    <root level="INFO">
+        <!-- append-refタグで、ログ出力先の設定と関連付けを行います。 -->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
