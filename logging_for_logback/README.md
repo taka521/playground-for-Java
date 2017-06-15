@@ -16,7 +16,23 @@ Mavenでライブラリを管理。
 SLF4Jが、クラスパスに配置されたjarを自動的に関連付けしてログ出力を行ってくれる。<br/>
 
 Q. ロギングライブラリがクラスパス上に複数ある場合はどうなる？<br/>
-A. 
+A. 実行時に警告が出てくるが、ログ出力はされる。
+
+試しにLogbackとlog4jを配置してみた。
+
+```text
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/Users/user/.m2/repository/ch/qos/logback/logback-classic/1.1.7/logback-classic-1.1.7.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/user/.m2/repository/org/apache/logging/log4j/log4j-slf4j-impl/2.8.2/log4j-slf4j-impl-2.8.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+2017-06-15 21:01:46,741 [main] INFO  Main - Get Wild!!
+2017-06-15 21:01:46,744 [main] WARN  Main - Get Wild!!
+2017-06-15 21:01:46,744 [main] ERROR Main - Get Wild!!
+```
+
+ロギングライブラリが重複してた場合、先にクラスパスに追加したものが使用される。<br/>
+※Mavenの場合、dependenciesタグ内の追加順。
 
 ### Logback
 

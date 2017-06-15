@@ -2,6 +2,8 @@
 
 <configuration>
 
+
+
     <!--
         appenderタグで、ログの出力先を指定する。
         name属性には、appenderの定義名を記載する。

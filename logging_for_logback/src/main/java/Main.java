@@ -14,12 +14,10 @@ public class Main {
     private static final String LOG_MESSAGE = "Get Wild!!";
 
     public static void main(String[] args) {
-        for (int i = 0; i < 50; i++) {
-            logger.debug(LOG_MESSAGE);
-            logger.info(LOG_MESSAGE);
-            logger.warn(LOG_MESSAGE);
-            logger.error(LOG_MESSAGE);
-            logger.trace(LOG_MESSAGE);
-        }
+        logger.debug(LOG_MESSAGE);
+        logger.info(LOG_MESSAGE);
+        logger.warn(LOG_MESSAGE);
+        logger.error(LOG_MESSAGE);
+        logger.trace(LOG_MESSAGE);
     }
 }
