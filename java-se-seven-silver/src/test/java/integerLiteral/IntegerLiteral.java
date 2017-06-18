@@ -20,9 +20,10 @@ public class IntegerLiteral {
         // 2進数（接頭辞：「0b」）
         int d = 0b1010;
 
-        assertEquals(10, a);
-        assertEquals(10, b);
-        assertEquals(10, c);
-        assertEquals(10, d);
+        long expected = 10L;
+        assertEquals(expected, a);
+        assertEquals(expected, b);
+        assertEquals(expected, c);
+        assertEquals(expected, d);
     }
 }
