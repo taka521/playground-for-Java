@@ -22,4 +22,10 @@ public class HelloController {
         return Flux.fromStream(stream.limit(10))
                 .map(i -> Collections.singletonMap("value", i));
     }
+
+    @GetMapping("/streamNoLimit")
+    Flux<Map<String, Integer>> streamNoLimit(){
+        Stream<Integer> stream = Stream.iterate(0, i -> i + 1);
+        return Flux.fromStream(stream.map(i -> Collections.singletonMap("value", i)));
+    }
 }
