@@ -2,6 +2,7 @@ package com.example.handler;
 
 import static org.springframework.web.reactive.function.BodyInserters.fromPublisher;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -24,7 +25,8 @@ public class HelloHandler {
 
     public RouterFunction<ServerResponse> routes() {
         return route(GET("/"), this::hello)
-                .andRoute(GET("/stream"), this::stream);
+                .andRoute(GET("/stream"), this::stream)
+                .andRoute(POST("/echo"), this::echo);
     }
 
     public Mono<ServerResponse> hello(ServerRequest request) {
@@ -38,5 +40,10 @@ public class HelloHandler {
         return ok().contentType(MediaType.APPLICATION_STREAM_JSON)
                 .body(fromPublisher(flux, new ParameterizedTypeReference<Map<String, Integer>>() {
                 }));
+    }
+
+    public Mono<ServerResponse> echo(ServerRequest request) {
+        Mono<String> body = request.bodyToMono(String.class).map(String::toUpperCase);
+        return ok().body(body, String.class);
     }
 }
