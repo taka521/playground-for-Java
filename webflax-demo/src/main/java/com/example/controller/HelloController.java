@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
-@RestController
+//@RestController
 public class HelloController {
 
     @GetMapping("/")
