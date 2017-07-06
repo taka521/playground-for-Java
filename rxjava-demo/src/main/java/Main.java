@@ -1,47 +1,27 @@
 import rx.Observable;
-import rx.Observer;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 public class Main {
+
+    /** データが通知された場合のAction1 */
+    private static final Action1<String> ON_NEXT = item -> System.out.printf("[%s]%s%n", Thread.currentThread().getName(), item);
+
+    /** エラー通知時のAction1 */
+    private static final Action1<Throwable> ON_ERROR = Throwable::printStackTrace;
+
+    /** 完了通知時のAction0 */
+    private static final Action0 ON_COMPLETED = () -> System.out.printf("[%s]完了しました。%n", Thread.currentThread().getName());
 
     public static void main(String[] args) {
 
         // "Hello" と "World" を通知するObservable
-        Observable<String> observableGreeting = Observable.create(subscriber -> {
-
-            // 購読解除されている場合は、処理を終了する。
-            if (subscriber.isUnsubscribed()) return;
-
-            subscriber.onNext("Hello"); // 1回目の通知
-            subscriber.onNext("World"); // 2回目の通知
-
-            // 購読解除されてない場合は、完了を通知する。
-            if (!subscriber.isUnsubscribed()) subscriber.onCompleted();
-
-        });
+        // justメソッドでは、購読解除時の対応も完了の通知も実装されたObservableが生成される。
+        Observable<String> observableGreeting = Observable.just("Hello", "World");
 
         // Observableを購読し、処理を行う。
-        observableGreeting.subscribe(new Observer<String>() {
-
-            // 完了通知時の処理
-            @Override
-            public void onCompleted() {
-                String threadName = Thread.currentThread().getName();
-                System.out.printf("[%s]完了しました%n", threadName);
-            }
-
-            // エラー通知時の処理
-            @Override
-            public void onError(final Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-            // データ通知時の処理
-            @Override
-            public void onNext(final String item) {
-                String threadName = Thread.currentThread().getName();
-                System.out.printf("[%s]%s%n", threadName, item);
-            }
-        });
+        // subscribeメソッドにはいくつか種類があり、今回は関数インターフェースを受け取るメソッドを使用する。
+        observableGreeting.subscribe(ON_NEXT, ON_ERROR, ON_COMPLETED);
 
     }
 }
