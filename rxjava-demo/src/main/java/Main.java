@@ -1,6 +1,7 @@
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class Main {
 
@@ -21,7 +22,20 @@ public class Main {
 
         // Observableを購読し、処理を行う。
         // subscribeメソッドにはいくつか種類があり、今回は関数インターフェースを受け取るメソッドを使用する。
-        observableGreeting.subscribe(ON_NEXT, ON_ERROR, ON_COMPLETED);
+        // observeOnメソッドで、データを受け取った時にどのスレッド上で処理させるかを設定できる。
+        // observeOnメソッドには、Schedulerを渡す。
+        // Schedulerはスレッドプールにスレッドがあればそこから取得し、無ければ新たに生成します。（生成したスレッドは、処理後にプールされる）
+        observableGreeting.observeOn(Schedulers.computation()).subscribe(ON_NEXT, ON_ERROR, ON_COMPLETED);
+
+        // メインスレッド名を出力
+        System.out.printf("[%s]subscribed!%n", Thread.currentThread().getName());
+
+        // 非同期で処理されていることを確認するためにメインスレッドの処理を止める
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 }
