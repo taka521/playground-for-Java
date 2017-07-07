@@ -3,6 +3,7 @@ package rxjava.ver_2;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.ResourceSubscriber;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -24,21 +25,37 @@ public class Main {
 
 
         // Subscriberの処理を別スレッドで実行させる。
-        flowable.observeOn(Schedulers.computation()).subscribe(new Subscriber<String>() {
+        // ResourceSubscriberは、内部でonSubscribeメソッドでLong.MAX_VALUEをリクエストするようになっている抽象クラス。
+        flowable.observeOn(Schedulers.computation()).subscribe(new ResourceSubscriber<String>() {
 
-            /** データ数のリクエスト及び、購読のキャンセルを行うオブジェクト */
-            private Subscription subscription;
+            /** 開始時間を記録する。 */
+            private long startTime;
 
             @Override
-            public void onSubscribe(Subscription s) {
-                this.subscription = s;
-                this.subscription.request(1L); // 受け取るデータ数をリクエスト
+            protected void onStart() {
+                startTime = System.currentTimeMillis();
+                this.request(Long.MAX_VALUE);
             }
 
             @Override
             public void onNext(String s) {
+
+                // 購読開始から500ミリを超過した場合には、購読を解除する。
+                long progressTime = System.currentTimeMillis() - startTime;
+                if (progressTime > 500L) {
+                    this.dispose();
+                    System.out.println("購読を解除しました");
+                    return;
+                }
+
+                // 購読を解除させるためにスリープを挟む。
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 System.out.printf("[%s]%s%n", Thread.currentThread().getName(), s); // 受け取ったデータを出力
-                this.subscription.request(1L); // 次に受け取るデータ数をリクエスト
             }
 
             @Override
@@ -53,7 +70,7 @@ public class Main {
         });
 
         try {
-            Thread.sleep(500L);
+            Thread.sleep(1500L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
