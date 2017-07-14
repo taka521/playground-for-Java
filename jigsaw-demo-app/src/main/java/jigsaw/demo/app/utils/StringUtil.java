@@ -1,11 +1,13 @@
 package jigsaw.demo.app.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 文字列のユーティリティクラス
  */
-public final class StringUtils {
+public final class StringUtil {
 
-    private StringUtils() {
+    private StringUtil() {
         throw new AssertionError();
     }
 
@@ -18,7 +20,7 @@ public final class StringUtils {
      * @return 結果
      */
     public static boolean isEmpty(final String s) {
-        return org.apache.commons.lang3.StringUtils.isEmpty(s);
+        return StringUtils.isEmpty(s);
     }
 
     /**
