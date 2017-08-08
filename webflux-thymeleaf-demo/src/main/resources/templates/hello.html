@@ -9,5 +9,11 @@
 <body>
     <h1 th:utext="${title}">タイトル</h1>
     <p th:utext="${now}">現在日時</p>
+    <form th:action="@{/get}" method="get">
+        <input type="submit" value="get" />
+    </form>
+    <form th:action="@{/wild}" method="get">
+        <input type="submit" value="wild" />
+    </form>
 </body>
 </html>
