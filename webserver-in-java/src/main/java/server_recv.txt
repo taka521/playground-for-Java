@@ -1,0 +1,10 @@
+GET /index.html HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: ja,en-US;q=0.8,en;q=0.6
+Cookie: Idea-4d9842d=cc194428-88c8-4d93-8ea7-33eaa1a15b96; Idea-976a3649=fe7c0585-dea7-40aa-a34c-69f9a0eb571d
+
