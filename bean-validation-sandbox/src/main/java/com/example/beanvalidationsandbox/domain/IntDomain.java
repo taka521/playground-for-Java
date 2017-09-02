@@ -1,5 +1,8 @@
 package com.example.beanvalidationsandbox.domain;
 
+/**
+ * 整数を扱うドメインクラス
+ */
 public class IntDomain implements Domain<Integer> {
 
     private Integer value;

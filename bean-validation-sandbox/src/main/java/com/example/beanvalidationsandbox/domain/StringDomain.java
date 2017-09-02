@@ -1,5 +1,8 @@
 package com.example.beanvalidationsandbox.domain;
 
+/**
+ * 文字列を扱うドメインクラス
+ */
 public class StringDomain implements Domain<String> {
 
     private String value;
