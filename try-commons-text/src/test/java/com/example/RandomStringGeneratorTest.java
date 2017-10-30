@@ -7,17 +7,13 @@ import org.junit.Test;
 
 public class RandomStringGeneratorTest {
 
-    static final CharacterPredicate NUMBER_ONLY = v -> 48 <= v && v <= 57;
-    static final CharacterPredicate UPPERCASE_ALPHA = v -> 65 <= v && v <= 90;
-    static final CharacterPredicate LOWERCASE_ALPAHA = v -> 97 <= v && v <= 122;
-
     @Test
     public void testRandomStringGenerator() {
         final CharacterPredicate ALPHANUMERIC = v -> CharUtils.isAsciiAlphanumeric((char) v);
 
         final String result = new RandomStringGenerator.Builder()
                 .withinRange('0', 'z')
-                .filteredBy(NUMBER_ONLY, UPPERCASE_ALPHA, LOWERCASE_ALPAHA)
+                .filteredBy(Character::isLetter, Character::isDigit)
                 .build()
                 .generate(20);
 
